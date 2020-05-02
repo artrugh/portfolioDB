@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        img {
+            width: 100%;
+        }
+    </style>
+    <title>DB File Uploads-login</title>
+</head>
+
+<body>
+    <div class="container" style="max-width: 100vw; margin: 0">
+        <div class="row">
+            <div class="col-md-6 m-auto" style="flex: 0 0 100%; max-width: 100%;">
+                <h1 class="text-center display-4 my-4">DB File Uploads - login</h1>
+                <form action="/login" method="POST" enctype="application/x-www-form-urlencoded" id='login'>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="username"
+                        autoComplete="username">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="password"
+                        autoComplete="current-password">
+                    <input type="submit" value="Submit" class="btn btn-primary btn-block" style="margin-top: 20px">
+                </form>
+                <hr>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        img {
+            width: 100%;
+        }
+    </style>
+    <title>PortFolioDB-Projects-Uploads</title>
+</head>
+
+<body>
+    <div class="container" style="max-width: 100vw; margin: 0">
+        <div class="row">
+
+            <div class="col-md-6 m-auto" style="flex: 0 0 100%; max-width: 100%;">
+                <div style="display: flex; justify-content:space-between; align-items: center;">
+                    <form action="/dashboard/images" method="GET" enctype="application/x-www-form-urlencoded"
+                        id='file-dashboard'>
+                        <button class=" btn btn-primary btn-block mt-4"
+                            style="max-width: 100px; max-height: 40px; margin-top: 0!important;">images</button>
+                    </form>
+                    <h2 class="text-center display-4 my-4">PortDB-Projects-Uploads</h2>
+                    <form action="/logout" method="POST" enctype="application/x-www-form-urlencoded" id='logout'>
+                        <button class=" btn btn-primary btn-block mt-4"
+                            style="max-width: 100px; max-height: 40px; margin-top: 0!important;">log-out</button>
+                    </form>
+                </div>
+
+                <form action="/addproject" method="POST" enctype="application/x-www-form-urlencoded" id="post-project">
+                    <textarea style="height: 300px" form="post-project" type="text" name="project" id="project"
+                        class="form-control" placeholder="new-project" autoComplete="project"></textarea>
+                    <input type="submit" value="Submit" class="btn btn-primary btn-block" style="margin-top: 20px">
+                </form>
+                <hr>
+                <div class="card-group">
+                    <% if(projects){ %>
+                    <% projects.forEach(function(project) { %>
+                    <div class="card card-body mb-3" style="max-width: 200px">
+                        <p>project_name: <%= project.generic_name %><br> id: <%= project._id %></p>
+                        <form method="GET" action="/dashboard/images/<%= project._id %>">
+                            <button class=" btn btn-danger btn-block mt-4"
+                                style="display: flex; flex-direction: column; align-items: center;">
+                                <% if(project.images.small.length > 0){ %>
+                                <img style="border-radius: 5px;" src="<%= project.images.small[0] %>"
+                                    alt="<%= project.generic_name %>">
+                                <% } else if (project.images.big.length > 0){ %>
+                                <img style="border-radius: 5px;" src="<%= project.images.big[0] %>"
+                                    alt="<%= project.generic_name %>">
+                                <% } %>
+                                modified</button>
+                        </form>
+                    </div>
+                    <% }) %>
+                    <% } else { %>
+                    <p>No projects to show</p>
+                    <% } %>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

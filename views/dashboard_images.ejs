@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <style>
+    img {
+      width: 100%;
+    }
+  </style>
+  <title>PortFolioDB-Images-Uploads</title>
+</head>
+
+<body>
+  <div class="container" id="main-container" style="margin: 0; max-width: 100vw!important;">
+    <div class="row">
+
+      <div class="col-md-6 m-auto" style="flex: 0 0 100%; max-width: 100%;">
+        <div style="display: flex; justify-content:space-between; align-items: center;">
+          <form action="/dashboard" method="GET" enctype="application/x-www-form-urlencoded" id='project-dashboard'>
+            <button class=" btn btn-primary btn-block mt-4"
+              style="max-width: 100px; max-height: 40px; margin-top: 0!important;">projects</button>
+          </form>
+          <h2 class="text-center display-4 my-4">PortDB-Images-Uploads</h2>
+          <form action="/logout" method="POST" enctype="application/x-www-form-urlencoded" id='logout'>
+            <button class=" btn btn-primary btn-block mt-4"
+              style="max-width: 100px; max-height: 40px; margin-top: 0!important;">log-out</button>
+          </form>
+        </div>
+
+        <% if(id){ %>
+        <form action="/upload/<%= id %>" method="POST" enctype="multipart/form-data" id='post-img'>
+
+          <div onclick="toggle()" style="width: fit-content;">
+            <input type="checkbox" name="image_size" value="true" checked data-toggle="toggle" data-onstyle="success"
+              id="toggle" data-offstyle="info" data-on="img size<br>big" data-off="img size<br>small"
+              style="margin-bottom: 20px!important;">
+          </div>
+
+          <div class="form-group" style="margin-top: 20px!important;">
+            <input type="file" name="file" class="form-control-file">
+          </div>
+          <div class="form-group" style="margin-top: 20px!important;">
+            <input type="file" name="file" class="form-control-file">
+          </div>
+          <div class="form-group" style="margin-top: 20px!important;">
+            <input type="file" name="file" class="form-control-file">
+          </div>
+          <div class="form-group" style="margin-top: 20px!important;">
+            <input type="file" name="file" class="form-control-file">
+          </div>
+          <div class="form-group" style="margin-top: 20px!important;">
+            <input type="file" name="file" class="form-control-file">
+          </div>
+          <div class="form-group" style="margin-top: 20px!important;">
+            <input type="file" name="file" class="form-control-file">
+          </div>
+          <!--                     
+          <div class="custom-file mb-3">
+            <input type="file" name="file" id="file" class="custom-file-input">
+            <label for="file" class="custom-file-label">Choose File</label>
+          </div> -->
+          <input type="submit" value="Submit" class="btn btn-primary btn-block" style="margin-top: 20px">
+        </form>
+        <hr>
+        <p><%= id %></p>
+        <% } %>
+
+        <div class="card-group">
+          <% if(files){ %>
+          <% files.forEach(function(file) { %>
+
+          <div class="card card-body mb-3 size-<%= file.metadata.size %>" style="min-width: 200px; max-width: 300px">
+            <p>img_size: <%= file.metadata.size%></p>
+            <p>img_id: <%= file._id%></p>
+            <% if(file.isImage) { %>
+            <img src="http://<%= host %>/image/<%= file.filename %>" alt="">
+            <% } else { %>
+            <a href="/files/<%= file.filename %>" target="_blank"><%= file.filename %></a>
+            <% } %>
+            <form method="POST" action="/files/<%= file.filename %>?_method=DELETE">
+              <button class=" btn btn-danger btn-block mt-4">Delete</button>
+            </form>
+          </div>
+
+          <% }) %>
+          <% } else { %>
+          <p>No files to show</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+  <script>
+
+    const toggleInput = document.getElementById("toggle");
+    const smalls = [...document.querySelectorAll(".size-small")]
+    const bigs = [...document.querySelectorAll(".size-big")]
+    smalls.map(small => small.style.display = "none");
+
+    let size = toggleInput.value;
+
+    const toggle = () => {
+      size = !size
+      if (size) {
+        smalls.map(small => small.style.display = "none");
+        bigs.map(big => big.style.display = "block")
+      } else {
+        bigs.map(big => big.style.display = "none");
+        smalls.map(small => small.style.display = "block")
+      }
+    }
+
+  </script>
+</body>
+
+
+</html>
